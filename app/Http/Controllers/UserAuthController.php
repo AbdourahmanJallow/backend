@@ -49,7 +49,7 @@ class UserAuthController extends Controller
             ]);
         }
 
-        $user->load("patient", 'doctor');
+        // $user->load("patient", 'doctor');
         // event(new Registered($user));
 
         return response($user, 200);

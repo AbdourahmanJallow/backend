@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Appointment;
 use App\Models\Doctor;
 use App\Models\Patient;
 use App\Models\User;
@@ -42,8 +43,7 @@ class AdminController extends Controller
     {
         $request->user()->tokens()->delete();
 
-        // return response(['success' => true, 'message' => 'Admin logged out successfully.']);
-        return "logged out";
+        return response(['success' => true, 'message' => 'Admin logged out successfully.']);
     }
 
     /**
@@ -84,9 +84,9 @@ class AdminController extends Controller
         return response(['success' => true, 'data' => $patients]);
     }
 
-    public function getPatient()
+    public function getPatient(Request $request, User $user)
     {
-        return "A patient";
+        return $user;
     }
     public function getDoctors(Request $request)
     {
@@ -97,8 +97,15 @@ class AdminController extends Controller
         return response(['success' => true, 'data' => $doctors]);
     }
 
-    public function getDoctor()
+    public function getDoctor(Request $request, User $user)
     {
-        return "A doctor";
+        return $user;
+    }
+
+    public function getAppointments()
+    {
+        $appointements = Appointment::all();
+
+        return $appointements;
     }
 }

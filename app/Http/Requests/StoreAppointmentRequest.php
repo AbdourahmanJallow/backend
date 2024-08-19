@@ -11,7 +11,7 @@ class StoreAppointmentRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -22,7 +22,10 @@ class StoreAppointmentRequest extends FormRequest
     public function rules(): array
     {
         return [
-            //
+            'doctor_id' => ['bail', 'required', 'exists:doctors,id'],
+            // 'patient_id' => ['required', 'exists:patients,id'],
+            // 'scheduled_at' => ['required', 'date_format:Y-m-d H:i:s'],
+            'reasons' => ['required', 'max:500']
         ];
     }
 }
