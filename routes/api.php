@@ -3,6 +3,7 @@
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\Patient\PatientController;
 use App\Http\Controllers\UserAuthController;
+use App\Http\Middleware\EnsurePatientOwnsAppointment;
 use App\Http\Middleware\IsAdmin;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -21,6 +22,8 @@ Route::middleware('auth:sanctum',)->group(function () {
     Route::post('patient/book-appointment', [PatientController::class, 'bookAppointment']);
     Route::get('patient/appointments', [PatientController::class, 'getMyAppointments']);
     Route::get('patient/appointments/{appointment}', [PatientController::class, 'getAppointment']);
+    Route::put('patient/appointments/{appointment}/cancel', [PatientController::class, 'cancelAppointment']);
+    Route::delete('patient/appointments/{appointment}/delete', [PatientController::class, 'deleteAppointment']);
 });
 
 // Admin routes

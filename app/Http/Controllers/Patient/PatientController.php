@@ -19,11 +19,42 @@ class PatientController extends Controller
             'patient_id' => $user->patient->id,
             'doctor_id' => $request->doctor_id,
             'reasons' => $request->reasons,
-            'scheduled_at' => now()
+            'scheduled_at' => $request->scheduled_at,
         ]);
 
         return response(['success' => true, 'data' => $appointment]);
     }
+
+    public function deleteAppointment(Request $request, Appointment $appointment)
+    {
+        $user = $request->user();
+        $user->load('patient');
+
+        if ($user->patient->id !== $appointment->patient_id) {
+            return response(['success' => false, 'message' => 'Cannot delete appointment.'], 403);
+        }
+
+        $appointment->delete();
+
+        return response(['success' => true, 'message' => 'Appointment deleted successfully.']);
+    }
+
+    public function cancelAppointment(Request $request, Appointment $appointment)
+    {
+        $user = $request->user();
+        $user->load('patient');
+
+        if ($user->patient->id !== $appointment->patient_id) {
+            return response(['success' => false, 'message' => 'Cannot delete appointment.'], 403);
+        }
+
+        $appointment->status = 'canceled';
+        $appointment->save();
+
+        // return response(['success' => false, 'message' => 'Appointment canceled successfully.', 'data' => $appointment]);
+        return $appointment;
+    }
+
 
     public function getMyAppointments(Request $request)
     {
@@ -41,7 +72,7 @@ class PatientController extends Controller
         $user->load('patient');
 
         if ($user->patient->id !== $appointment->patient_id) {
-            return response(['success' => false, 'message' => 'Cannot view apppointment.'], 403);
+            return response(['success' => false, 'message' => 'Cannot read apppointment.'], 403);
         }
 
         return $appointment;
