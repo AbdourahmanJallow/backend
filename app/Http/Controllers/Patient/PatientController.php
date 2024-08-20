@@ -5,18 +5,16 @@ namespace App\Http\Controllers\Patient;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreAppointmentRequest;
 use App\Models\Appointment;
+use App\Models\Patient;
 use Illuminate\Http\Request;
 
 class PatientController extends Controller
 {
     //
-    public function bookAppointment(StoreAppointmentRequest $request)
+    public function bookAppointment(StoreAppointmentRequest $request, Patient $patient)
     {
-        $user = $request->user();
-        $user->load('patient');
-
         $appointment = Appointment::create([
-            'patient_id' => $user->patient->id,
+            'patient_id' => $patient->id,
             'doctor_id' => $request->doctor_id,
             'reasons' => $request->reasons,
             'scheduled_at' => $request->scheduled_at,
@@ -25,13 +23,10 @@ class PatientController extends Controller
         return response(['success' => true, 'data' => $appointment]);
     }
 
-    public function deleteAppointment(Request $request, Appointment $appointment)
+    public function deleteAppointment(Request $request, Patient $patient, Appointment $appointment)
     {
-        $user = $request->user();
-        $user->load('patient');
-
-        if ($user->patient->id !== $appointment->patient_id) {
-            return response(['success' => false, 'message' => 'Cannot delete appointment.'], 403);
+        if ($patient->id !== $appointment->patient_id) {
+            return response(['success' => false, 'message' => 'Unauthorized to access route.'], 403);
         }
 
         $appointment->delete();
@@ -39,39 +34,33 @@ class PatientController extends Controller
         return response(['success' => true, 'message' => 'Appointment deleted successfully.']);
     }
 
-    public function cancelAppointment(Request $request, Appointment $appointment)
+    public function cancelAppointment(Request $request, Patient $patient, Appointment $appointment)
     {
-        $user = $request->user();
-        $user->load('patient');
+        if ($patient->id !== $appointment->patient_id) {
+            return response(['success' => false, 'message' => 'Unauthorized to access route'], 403);
+        }
 
-        if ($user->patient->id !== $appointment->patient_id) {
-            return response(['success' => false, 'message' => 'Cannot delete appointment.'], 403);
+        if ($appointment->status === 'canceled') {
+            return response(['success' => false, 'message' => 'Appointment already canceled.']);
         }
 
         $appointment->status = 'canceled';
         $appointment->save();
 
-        // return response(['success' => false, 'message' => 'Appointment canceled successfully.', 'data' => $appointment]);
-        return $appointment;
+        return response(['success' => true, 'message' => 'Appointment canceled successfully.', 'data' => $appointment]);
     }
 
 
-    public function getMyAppointments(Request $request)
+    public function getMyAppointments(Request $request, Patient $patient)
     {
-        $user = $request->user();
-        $user->load('patient');
-
-        $appointments = Appointment::where('patient_id', $user->patient->id)->get();
+        $appointments = Appointment::where('patient_id', $patient->id)->get();
 
         return $appointments;
     }
 
-    public function getAppointment(Request $request, Appointment $appointment)
+    public function getAppointment(Request $request, Patient $patient, Appointment $appointment)
     {
-        $user = $request->user();
-        $user->load('patient');
-
-        if ($user->patient->id !== $appointment->patient_id) {
+        if ($patient->id !== $appointment->patient_id) {
             return response(['success' => false, 'message' => 'Cannot read apppointment.'], 403);
         }
 

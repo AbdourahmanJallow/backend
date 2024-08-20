@@ -11,11 +11,8 @@ use Illuminate\Support\Facades\Hash;
 use Laravel\Sanctum\HasApiTokens;
 use Illuminate\Validation\Rules;
 
-
 class UserAuthController extends Controller
 {
-    // use HasApiTokens
-
     public function register(Request $request)
     {
         $validatedData = $request->validate([
@@ -69,8 +66,16 @@ class UserAuthController extends Controller
         }
 
         $token = $user->createToken($user->name . '-AuthToken')->plainTextToken;
+        $user->load('patient', 'doctor');
 
-        return response(["success" => true, "token" => $token], 200);
+        $id = $user->userType === 'patient' ? $user->patient->id : $user->doctor->id;
+
+        return response([
+            "success" => true,
+            "token" => $token,
+            'userType' => $user->userType,
+            'id' => $id
+        ], 200);
     }
 
     public function logout(Request $request)

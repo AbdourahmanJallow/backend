@@ -7,53 +7,95 @@ use App\Http\Requests\UpdateDoctorRequest;
 use App\Models\Appointment;
 use App\Models\Doctor;
 use Illuminate\Http\Request;
+use Carbon\Carbon;
+
 
 class DoctorController extends Controller
 {
-    public function getAppointments(Request $request)
+    public function getAppointments(Request $request, Doctor $doctor)
     {
-        $user = $request->user();
-        $user->load('doctor');
-
-        $appointments = Appointment::where('doctor_id', $user->doctor->id)->get();
+        $appointments = Appointment::where('doctor_id', $doctor->id)->get();
 
         return response(['success' => true, 'data' => $appointments]);
     }
 
-
-    public function getAppointment(Request $request, Appointment $appointment)
+    public function getAppointment(Request $request, Doctor $doctor, Appointment $appointment)
     {
-        $user = $request->user();
-        $user->load('doctor');
-
-        if ($user->doctor->id !== $appointment->doctor_id) {
-            return response(['success' => false, 'message' => 'Cannot read appointment.']);
+        if ($doctor->id !== $appointment->doctor_id) {
+            return response(['success' => false, 'message' => 'Unauthorized to access.']);
         }
 
         return response(['success' => true, 'data' => $appointment]);
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(StoreDoctorRequest $request)
+    public function confirmAppointment(Request $request, Doctor $doctor, Appointment $appointment)
     {
-        //
+        if ($doctor->id !== $appointment->doctor_id) {
+            return response(['success' => false, 'message' => 'Unauthorized to access resource'], 403);
+        }
+
+        $appointment->status = 'scheduled';
+        $appointment->save();
+
+        return response([
+            'success' => true,
+            'message' => 'Appointment confirmed successfully.',
+            'data' => $appointment
+        ]);
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(UpdateDoctorRequest $request, Doctor $doctor)
+    public function rescheduleAppointment(Request $request, Doctor $doctor, Appointment $appointment)
     {
-        //
+        // Needs revisting :(
+
+        $validated = $request->validate(['new_schedule' => 'required|date_format:Y-m-d H:i:s']);
+
+        if (!$doctor || !$appointment) {
+            return response(['success' => false, 'message' => 'Appointment or Doctor not found'], 404);
+        }
+
+        if ($doctor->id !== $appointment->doctor_id) {
+            return response(['success' => false, 'message' => 'Unauthorized to access resource'], 403);
+        }
+
+        // $newSchedule = Carbon::parse($request->new_scheduled);
+        $appointment->scheduled_at = Carbon::now();
+        $appointment->save();
+
+        return response([
+            'success' => true,
+            'message' => 'Appointment rescheduled successfully.',
+            'data' => $appointment
+        ]);
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(Doctor $doctor)
+    public function declineAppointment(Request $request, Doctor $doctor, Appointment $appointment) {}
+
+    public function cancelAppointment(Request $request, Doctor $doctor, Appointment $appointment)
     {
-        //
+        if ($doctor->id !== $appointment->doctor_id) {
+            return response(['success' => false, 'message' => 'Unauthorized to access resource'], 403);
+        }
+
+        $appointment->status = 'canceled';
+        $appointment->save();
+
+        return response([
+            'success' => true,
+            'message' => 'Appointment canceled.',
+            'data' => $appointment
+        ]);
+    }
+
+    public function markAppointmentAsCompleted(Request $request, Doctor $doctor, Appointment $appointment)
+    {
+        if ($doctor->id !== $appointment->doctor_id) {
+            return response(['success' => false, 'message' => 'UnAuthorized to access resource'], 403);
+        }
+
+        $appointment->status = 'completed';
+        $appointment->save();
+
+        return response(['success' => true, 'message' => 'Appointment completed.', 'data' => $appointment]);
     }
 }

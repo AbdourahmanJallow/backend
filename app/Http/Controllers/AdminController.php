@@ -8,12 +8,10 @@ use App\Models\Patient;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Hash; // Added this line
-
+use Illuminate\Support\Facades\Hash;
 
 class AdminController extends Controller
 {
-
     public function login(Request $request)
     {
         $credentials = $request->validate([
@@ -73,7 +71,7 @@ class AdminController extends Controller
 
         $user->delete();
 
-        return response(['success' => true, "message" => "Patient deleted."]);
+        return response(['success' => true, "message" => "User deleted."]);
     }
 
     public function getPatients()
@@ -90,7 +88,6 @@ class AdminController extends Controller
     }
     public function getDoctors(Request $request)
     {
-
         $doctors = Doctor::all();
         $doctors->load('user');
 
@@ -107,5 +104,14 @@ class AdminController extends Controller
         $appointements = Appointment::all();
 
         return $appointements;
+    }
+
+    public function getAppointment(Request $request, Appointment $appointment)
+    {
+        if (!$appointment) {
+            return response(['success' => false, 'message' => 'Appointment not found.']);
+        }
+
+        return response(['success' => true, 'data' => $appointment]);
     }
 }
