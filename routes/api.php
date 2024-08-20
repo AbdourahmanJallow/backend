@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AdminController;
+use App\Http\Controllers\DoctorController;
 use App\Http\Controllers\Patient\PatientController;
 use App\Http\Controllers\UserAuthController;
 use App\Http\Middleware\EnsurePatientOwnsAppointment;
@@ -24,6 +25,9 @@ Route::middleware('auth:sanctum',)->group(function () {
     Route::get('patient/appointments/{appointment}', [PatientController::class, 'getAppointment']);
     Route::put('patient/appointments/{appointment}/cancel', [PatientController::class, 'cancelAppointment']);
     Route::delete('patient/appointments/{appointment}/delete', [PatientController::class, 'deleteAppointment']);
+
+    Route::get('doctor/appointments', [DoctorController::class, 'getAppointments']);
+    Route::get('doctor/appointments/{appointment}', [DoctorController::class, 'getAppointment']);
 });
 
 // Admin routes
