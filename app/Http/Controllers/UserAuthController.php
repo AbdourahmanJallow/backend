@@ -30,7 +30,7 @@ class UserAuthController extends Controller
         ]);
 
         if ($user->userType === 'patient') {
-            $patient = Patient::create([
+            Patient::create([
                 'user_id' => $user->id,
                 'phoneNumber' => $request->phoneNumber,
                 "dateOfBirth" => $request->dateOfBirth,
@@ -38,7 +38,7 @@ class UserAuthController extends Controller
                 // "medicalHistory" => $request->medicalHistory,
             ]);
         } elseif ($user->userType === 'doctor') {
-            $doctor = Doctor::create([
+            Doctor::create([
                 'user_id' => $user->id,
                 'specialization' => $request->specialization,
                 "clinicalAddress" => $request->clinicalAddress,

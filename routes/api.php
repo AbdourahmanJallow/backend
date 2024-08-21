@@ -37,6 +37,7 @@ Route::middleware('auth:sanctum',)->group(function () {
 });
 
 // Admin routes
+Route::post('admin/register', [AdminController::class, 'register'])->name('register');
 Route::post('admin/login', [AdminController::class, 'login'])->name('login');
 
 Route::middleware(['auth:sanctum', IsAdmin::class])->group(function () {

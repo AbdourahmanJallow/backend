@@ -10,7 +10,6 @@ use Illuminate\Http\Request;
 
 class PatientController extends Controller
 {
-    //
     public function bookAppointment(StoreAppointmentRequest $request, Patient $patient)
     {
         $appointment = Appointment::create([
@@ -50,6 +49,20 @@ class PatientController extends Controller
         return response(['success' => true, 'message' => 'Appointment canceled successfully.', 'data' => $appointment]);
     }
 
+    public function rescheduleAppointment(Request $request, Appointment $appointment)
+    {
+        // Needs revisit
+        $validated = $request->validate(['new_schedule' => 'required|date_format:Y-m-d H:i:s']);
+
+        $appointment->scheduled_at = $request->new_schedule;
+        $appointment->save();
+
+        return response([
+            'success' => true,
+            'message' => 'Appointment rescheduled successfully.',
+            'data' => $appointment
+        ]);
+    }
 
     public function getMyAppointments(Request $request, Patient $patient)
     {

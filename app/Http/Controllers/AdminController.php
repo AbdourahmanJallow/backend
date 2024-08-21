@@ -12,6 +12,26 @@ use Illuminate\Support\Facades\Hash;
 
 class AdminController extends Controller
 {
+    public function register(Request $request)
+    {
+        $request->validate([
+            "email" => ["required", 'email', 'unique:users'],
+            "password" => [
+                "required",
+                "min:8"
+            ],
+            "name" => ["required", "string"],
+        ]);
+
+        $user = User::create([
+            'name' => $request->name,
+            'email' => $request->email,
+            'password' => Hash::make($request->password),
+            'userType' => 'admin'
+        ]);
+
+        return response(['success' => true, 'data' => $user]);
+    }
     public function login(Request $request)
     {
         $credentials = $request->validate([

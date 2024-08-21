@@ -9,7 +9,6 @@ use App\Models\Doctor;
 use Illuminate\Http\Request;
 use Carbon\Carbon;
 
-
 class DoctorController extends Controller
 {
     public function getAppointments(Request $request, Doctor $doctor)
@@ -46,7 +45,7 @@ class DoctorController extends Controller
 
     public function rescheduleAppointment(Request $request, Doctor $doctor, Appointment $appointment)
     {
-        // Needs revisting :(
+        // Needs revisiting :(
 
         $validated = $request->validate(['new_schedule' => 'required|date_format:Y-m-d H:i:s']);
 
@@ -58,15 +57,18 @@ class DoctorController extends Controller
             return response(['success' => false, 'message' => 'Unauthorized to access resource'], 403);
         }
 
-        // $newSchedule = Carbon::parse($request->new_scheduled);
-        $appointment->scheduled_at = Carbon::now();
-        $appointment->save();
+        $newSchedule = Carbon::parse($validated['new_schedule']);
+        $appointment->scheduled_at = $newSchedule;
 
-        return response([
-            'success' => true,
-            'message' => 'Appointment rescheduled successfully.',
-            'data' => $appointment
-        ]);
+        if ($appointment->save()) {
+            return response([
+                'success' => true,
+                'message' => 'Appointment rescheduled successfully.',
+                'data' => $appointment
+            ]);
+        } else {
+            return response(['success' => false, 'message' => 'Error saving appointment.'], 500);
+        }
     }
 
     public function declineAppointment(Request $request, Doctor $doctor, Appointment $appointment) {}
