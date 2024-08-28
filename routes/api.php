@@ -1,10 +1,11 @@
 <?php
 
 use App\Http\Controllers\AdminController;
+use App\Http\Controllers\DoctorAppointmentController;
 use App\Http\Controllers\DoctorController;
 use App\Http\Controllers\Patient\PatientController;
+use App\Http\Controllers\PatientAppointmentController;
 use App\Http\Controllers\UserAuthController;
-use App\Http\Middleware\EnsurePatientOwnsAppointment;
 use App\Http\Middleware\IsAdmin;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -17,23 +18,26 @@ Route::get('/user', function (Request $request) {
     return $user;
 })->middleware('auth:sanctum');
 
-// User (Doctor and Patient) Authentication
-Route::post('register', [UserAuthController::class, 'register']);
-Route::post('login', [UserAuthController::class, 'login']);
-Route::middleware('auth:sanctum',)->group(function () {
-    Route::post('logout', [UserAuthController::class, 'logout']);
-    Route::post('patients/{patient}/book-appointment', [PatientController::class, 'bookAppointment']);
-    Route::get('patients/{patient}/appointments', [PatientController::class, 'getMyAppointments']);
-    Route::get('patients/{patient}/appointments/{appointment}', [PatientController::class, 'getAppointment']);
-    Route::put('patients/{patient}/appointments/{appointment}/cancel', [PatientController::class, 'cancelAppointment']);
-    Route::delete('patients/{patient}/appointments/{appointment}/delete', [PatientController::class, 'deleteAppointment']);
+// Patient Authentication
+Route::post('patient/register', [PatientController::class, 'register']);
+Route::post('patient/login', [PatientController::class, 'login']);
 
-    Route::get('doctors/{doctor}/appointments', [DoctorController::class, 'getAppointments']);
-    Route::get('doctors/{doctor}/appointments/{appointment}', [DoctorController::class, 'getAppointment']);
-    Route::put('doctors/{doctor}/appointments/{appointment}/confirm', [DoctorController::class, 'confirmAppointment']);
-    Route::put('doctors/{doctor}/appointments/{appointment}/reschedule', [DoctorController::class, 'rescheduleAppointment']);
-    Route::put('doctors/{doctor}/appointments/{appointment}/cancel', [DoctorController::class, 'cancelAppointment']);
-    Route::put('doctors/{doctor}/appointments/{appointment}/completed', [DoctorController::class, 'markAppointmentAsCompleted']);
+// Doctor Authentication
+Route::post('doctor/register', [DoctorController::class, 'register']);
+Route::post('doctor/login', [DoctorController::class, 'login']);
+
+Route::middleware('auth:sanctum',)->group(function () {
+    Route::post('patient/logout', [PatientController::class, 'logout']);
+    Route::put('patient/updateProfile', [PatientController::class, 'updateProfile']);
+
+    Route::post('doctor/logout', [DoctorController::class, 'logout']);
+    Route::put('doctor/updateProfile', [DoctorController::class, 'updateProfile']);
+    Route::get('doctor/profile', [DoctorController::class, 'profile']);
+
+    Route::apiResources([
+        'patientsAppointments' => PatientAppointmentController::class,
+        'doctorsAppointments' => DoctorAppointmentController::class
+    ]);
 });
 
 // Admin routes

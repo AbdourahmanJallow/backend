@@ -16,14 +16,6 @@ class EnsurePatientOwnsAppointment
      */
     public function handle(Request $request, Closure $next): Response
     {
-        $user = $request->user();
-        $user->load('patient');
-
-        $appointment = $request->route('appointment');
-
-        if ($user->patient->id !== $appointment->patient_id) {
-            return response(['success' => false, 'message' => 'Cannot delete appointment.'], 403);
-        }
 
         return $next($request);
     }

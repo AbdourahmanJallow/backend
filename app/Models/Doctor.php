@@ -20,4 +20,9 @@ class Doctor extends Model
     {
         return $this->belongsTo(User::class);
     }
+
+    public function availableDates()
+    {
+        return $this->hasOne(AvailableDates::class);
+    }
 }

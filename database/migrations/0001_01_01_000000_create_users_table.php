@@ -18,6 +18,8 @@ return new class extends Migration
             $table->timestamp('email_verified_at')->nullable();
             $table->enum('userType', ['patient', "doctor", "admin"])->default('patient');
             $table->string('avatar')->nullable();
+            // $table->string('phoneNumber')->unique();
+            $table->date("dateOfBirth")->nullable();
             $table->string('password');
             $table->rememberToken();
             $table->timestamps();

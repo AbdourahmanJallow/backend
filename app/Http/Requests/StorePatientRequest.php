@@ -11,7 +11,7 @@ class StorePatientRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -22,7 +22,16 @@ class StorePatientRequest extends FormRequest
     public function rules(): array
     {
         return [
-            //
+            'name' => ['required', 'string'],
+            // 'phoneNumber' => ['required', 'unique:users', 'string'],
+            'email' => ['required', 'email', 'unique:users'],
+            'password' => ['required', 'min:8'],
         ];
     }
 }
+
+// function ($attribute, $value, $fail) {
+//     if (!preg_match('/^\+?[1-9]\d{1,14}$/', $value)) {
+//         $fail('The phone number is invalid.');
+//     }
+// }

@@ -28,4 +28,11 @@ class StoreAppointmentRequest extends FormRequest
             'reasons' => ['required', 'max:500']
         ];
     }
+
+    public function messages()
+    {
+        return [
+            'reasons.required' => 'Reasons requied for',
+        ];
+    }
 }
