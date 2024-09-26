@@ -108,6 +108,10 @@ class DoctorController extends Controller
 
     private function getDoctorId()
     {
-        return auth()->user()->doctor()->first()->id;
+        // return auth()->user()->doctor()->first()->id;
     }
+
+    // public function doctorDetails(Request $request){
+    //     return 
+    // }
 }

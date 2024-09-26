@@ -2,6 +2,7 @@
 
 namespace Database\Factories;
 
+use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -16,8 +17,25 @@ class DoctorFactory extends Factory
      */
     public function definition(): array
     {
+        $specializations = [
+            'Cardiology',
+            'Dermatology',
+            'Pediatrics',
+            'Orthopedics',
+            'Neurology',
+            'Gynecology',
+            'General Surgery',
+            'Psychiatry',
+            'Radiology',
+            'Oncology',
+        ];
+
         return [
-            //
+            'user_id' => User::factory(), // This will automatically create and associate a User with this Doctor
+            'specialization' => $this->faker->randomElement($specializations),
+            'yearsOfExperience' => $this->faker->numberBetween(1, 20),
+            'bio' => $this->faker->paragraph(),
+            'clinicalAddress' => $this->faker->address(),
         ];
     }
 }

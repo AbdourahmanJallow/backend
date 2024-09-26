@@ -26,6 +26,7 @@ class AdminController extends Controller
         $user = User::create([
             'name' => $request->name,
             'email' => $request->email,
+            'email_verified_at' => now(),
             'password' => Hash::make($request->password),
             'userType' => 'admin'
         ]);
@@ -67,7 +68,7 @@ class AdminController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function storeUser(Request $request)
+    public function store(Request $request)
     {
         //
     }
@@ -75,7 +76,7 @@ class AdminController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function updateUser(Request $request, string $id)
+    public function update(Request $request, string $id)
     {
         //
     }
@@ -83,7 +84,7 @@ class AdminController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroyUser(Request $request, User $user)
+    public function destroy(Request $request, User $user)
     {
         if (!$user) {
             return response(["success" => false, "message" => "User not found."]);
@@ -99,7 +100,7 @@ class AdminController extends Controller
         $patients = Patient::all();
         $patients->load('user');
 
-        return response(['success' => true, 'data' => $patients]);
+        return response(['success' => true, 'patients' => $patients]);
     }
 
     public function getPatient(Request $request, User $user)

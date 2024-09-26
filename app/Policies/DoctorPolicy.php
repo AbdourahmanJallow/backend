@@ -13,7 +13,7 @@ class DoctorPolicy
      */
     public function viewAny(User $user): bool
     {
-        //
+        return $user->isAdmin();
     }
 
     /**
@@ -21,7 +21,7 @@ class DoctorPolicy
      */
     public function view(User $user, Doctor $doctor): bool
     {
-        //
+        return $user->isAdmin() || $user->id === $doctor->user_id;
     }
 
     /**
@@ -29,7 +29,7 @@ class DoctorPolicy
      */
     public function create(User $user): bool
     {
-        //
+        return $user->isAdmin();
     }
 
     /**
@@ -37,7 +37,7 @@ class DoctorPolicy
      */
     public function update(User $user, Doctor $doctor): bool
     {
-        //
+        return $user->isAdmin() || $user->id === $doctor->user_id;
     }
 
     /**
@@ -45,7 +45,8 @@ class DoctorPolicy
      */
     public function delete(User $user, Doctor $doctor): bool
     {
-        //
+        return $user->isAdmin()
+            || $user->id === $doctor->user_id;
     }
 
     /**
@@ -53,7 +54,7 @@ class DoctorPolicy
      */
     public function restore(User $user, Doctor $doctor): bool
     {
-        //
+        return $user->isAdmin() || $user->id === $doctor->user_id;
     }
 
     /**
@@ -61,6 +62,6 @@ class DoctorPolicy
      */
     public function forceDelete(User $user, Doctor $doctor): bool
     {
-        //
+        return $user->isAdmin() || $user->id === $doctor->user_id;
     }
 }

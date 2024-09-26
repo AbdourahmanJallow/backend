@@ -32,18 +32,15 @@ class UserAuthController extends Controller
         if ($user->userType === 'patient') {
             Patient::create([
                 'user_id' => $user->id,
-                'phoneNumber' => $request->phoneNumber,
-                "dateOfBirth" => $request->dateOfBirth,
-                // "address" => $request->address,
-                // "medicalHistory" => $request->medicalHistory,
             ]);
+
+            return redirect()->intended('/');
         } elseif ($user->userType === 'doctor') {
             Doctor::create([
                 'user_id' => $user->id,
-                'specialization' => $request->specialization,
-                "clinicalAddress" => $request->clinicalAddress,
-                "yearsOfExperience" => $request->yearsOfExperience,
             ]);
+
+            return redirect()->intended('/dashboard');
         }
 
         // $user->load("patient", 'doctor');

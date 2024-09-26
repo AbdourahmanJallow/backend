@@ -5,18 +5,21 @@ namespace App\Http\Controllers;
 use App\Http\Requests\StoreAppointmentRequest;
 use App\Models\Appointment;
 use App\Models\Patient;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Inertia\Inertia;
 
 class PatientAppointmentController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        $appointments = Appointment::where('patient_id', $this->getPatientId())->get();
+        $appointments = Appointment::with(['doctor.user'])->where('patient_id', $this->getPatientId($request))->get();
 
-        return $appointments;
+        // return $appointments;
+        return Inertia::render('Appointments', ['appointments' => $appointments]);
     }
 
     /**
@@ -24,24 +27,31 @@ class PatientAppointmentController extends Controller
      */
     public function store(StoreAppointmentRequest $request)
     {
-        $appointment = Appointment::create([
-            'patient_id' => $this->getPatientId(),
+        $scheduled_at = Carbon::parse($request->date . ' ' . $request->time);
+
+        Appointment::create([
+            'patient_id' => $this->getPatientId($request),
             'doctor_id' => $request->doctor_id,
             'reasons' => $request->reasons,
-            'scheduled_at' => $request->scheduled_at,
+            'scheduled_at' => $scheduled_at,
         ]);
 
-        return response(['success' => true, 'data' => $appointment]);
+        session()->flash('success', 'Appointment created successfully.');
+
+        // return response(['success' => true, 'data' => $appointment]);
+        // return redirect()->route('patientsAppointments.index')->with('success', 'Appointment booked successfully!');
+
+        return Inertia::location(route('patientsAppointments.index'));
     }
 
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
+    public function show(Request $request, string $id)
     {
         $appointment = Appointment::findOrFail($id);
 
-        if ($this->getPatientId() !== $appointment->first()->patient_id) {
+        if ($this->getPatientId($request) !== $appointment->first()->patient_id) {
             return response(['success' => false, 'message' => 'Cannot read apppointment.'], 403);
         }
 
@@ -55,7 +65,7 @@ class PatientAppointmentController extends Controller
     {
         $appointment = Appointment::findOrFail($id);
 
-        if ($this->getPatientId() !== $appointment->patient_id) {
+        if ($this->getPatientId($request) !== $appointment->patient_id) {
             return response(['success' => false, 'message' => 'Unauthorized to access resource'], 403);
         }
 
@@ -81,11 +91,11 @@ class PatientAppointmentController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy(Request $request, string $id)
     {
         $appointment = Appointment::findOrFail($id);
 
-        if ($this->getPatientId() !== $appointment->patient_id) {
+        if ($this->getPatientId($request) !== $appointment->patient_id) {
             return response(['success' => false, 'message' => 'Unauthorized to access route.'], 403);
         }
 
@@ -94,8 +104,8 @@ class PatientAppointmentController extends Controller
         return response(['success' => true, 'message' => 'Appointment deleted successfully.']);
     }
 
-    private function getPatientId()
+    private function getPatientId(Request $request)
     {
-        return auth()->user()->patient()->first()->id;
+        return $request->user()->patient()->first()->id;
     }
 }

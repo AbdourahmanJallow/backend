@@ -23,8 +23,9 @@ class StoreAppointmentRequest extends FormRequest
     {
         return [
             'doctor_id' => ['bail', 'required', 'exists:doctors,id'],
-            // 'patient_id' => ['required', 'exists:patients,id'],
-            // 'scheduled_at' => ['required', 'date_format:Y-m-d H:i:s'],
+            // 'patient_id' => ['bail', 'required', 'exists:patients,id'],
+            'date' => ['required', 'date'],
+            'time' => ['required', 'date_format:H:i'],
             'reasons' => ['required', 'max:500']
         ];
     }

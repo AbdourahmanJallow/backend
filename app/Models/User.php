@@ -20,8 +20,10 @@ class User extends Authenticatable
     protected $fillable = [
         'name',
         'email',
-        "userType",
         'password',
+        'userType',
+        'avatar',
+        'dateOfBirth',
     ];
 
     /**
@@ -60,5 +62,10 @@ class User extends Authenticatable
     public function isAdmin(): bool
     {
         return $this->userType === 'admin';
+    }
+
+    public function isDoctor(): bool
+    {
+        return $this->userType === 'doctor';
     }
 }
