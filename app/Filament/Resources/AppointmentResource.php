@@ -2,6 +2,7 @@
 
 namespace App\Filament\Resources;
 
+use App\Enums\AppointmentStatus;
 use App\Filament\Resources\AppointmentResource\Pages;
 use App\Filament\Resources\AppointmentResource\RelationManagers;
 use App\Models\Appointment;
@@ -13,25 +14,30 @@ use Filament\Tables;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
-use Illuminate\Support\Str;
 
 
 class AppointmentResource extends Resource
 {
     protected static ?string $model = Appointment::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
+    protected static ?string $navigationIcon = 'heroicon-o-calendar';
 
     public static function form(Form $form): Form
     {
+        $user = auth()->user();
+
         return $form
             ->schema([
                 Forms\Components\TextInput::make('doctor_name')
                     ->label('Doctor')
+                    // ->disabled()
+                    // ->dehydrated()
                     ->required(),
                 Forms\Components\TextInput::make('patient_name')
                     ->label('Patient')
-                    ->readOnly()
+                    // ->disabled()
+                    // ->dehydrated()
+                    ->readOnly(fn() => $user->isDoctor())
                     ->required(),
                 Forms\Components\DateTimePicker::make('scheduled_at')
                     ->label('Scheduled At')
@@ -39,8 +45,11 @@ class AppointmentResource extends Resource
                 Forms\Components\Textarea::make('reasons')
                     ->readOnly()
                     ->columnSpanFull(),
-                Forms\Components\TextInput::make('status')
+                Forms\Components\ToggleButtons::make('status')
+                    ->inline()
+                    ->options(AppointmentStatus::class)
                     ->required(),
+
             ]);
     }
 
@@ -49,22 +58,22 @@ class AppointmentResource extends Resource
         return $table
             ->columns([
                 Tables\Columns\TextColumn::make('patient.user.name')
-                    ->numeric()
                     ->label('Patient')
                     ->sortable(),
                 Tables\Columns\TextColumn::make('doctor.user.name')
-                    ->numeric()
                     ->label('Doctor')
                     ->sortable(),
-                Tables\Columns\TextColumn::make('reasons')
-                    ->numeric()
-                    ->label('Reasons')
-                    ->sortable(),
+                Tables\Columns\TextColumn::make('status')
+                    ->badge(),
+                // Tables\Columns\TextColumn::make('reasons')
+                //     ->numeric()
+                //     ->label('Reasons')
+                //     ->sortable(),
                 Tables\Columns\TextColumn::make('scheduled_at')
                     ->dateTime()
                     ->label('Appointment Date')
                     ->sortable(),
-                Tables\Columns\TextColumn::make('status'),
+
                 Tables\Columns\TextColumn::make('created_at')
                     ->dateTime()
                     ->sortable()

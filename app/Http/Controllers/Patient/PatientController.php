@@ -78,7 +78,7 @@ class PatientController extends Controller
         $request->session()->regenerateToken();
 
         // Redirect to the login page or home
-        return redirect('/login-patient');
+        return redirect('/auth/login');
     }
 
     public function updateProfile(Request $request)
