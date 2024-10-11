@@ -41,10 +41,13 @@ function Register() {
     };
 
     return (
-        <div className="w-full bg-white rounded-lg shadow dark:border md:mt-0 sm:max-w-md xl:p-0 dark:bg-gray-800 dark:border-gray-700">
+        <div className="w-full bg-white rounded-lg shadow dark:border md:mt-0 sm:min-w-[400px] xl:p-0 dark:bg-gray-800 dark:border-gray-700">
             <div className="p-6 space-y-4 md:space-y-6 sm:p-8">
-                <h1 className="text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl dark:text-white">
-                    Enter Details to Register
+                <h1 className="text-2xl font-bold leading-tight tracking-tight text-gray-900 md:text-4xl text-center dark:text-white">
+                    REGISTER{" "}
+                    <span className="font-extralight italic text-lg">
+                        Patient
+                    </span>
                 </h1>
                 <form
                     onSubmit={handleSubmit}
@@ -111,6 +114,18 @@ function Register() {
                     >
                         Register
                     </button>
+
+                    <p className="text-sm font-light text-gray-500 dark:text-gray-400 w-full flex justify-between">
+                        <span className="inline-flex">
+                            Already have an account?{" "}
+                        </span>
+                        <Link
+                            href="/auth/login"
+                            className="font-medium text-primary-600 hover:underline dark:text-primary-500"
+                        >
+                            Login
+                        </Link>
+                    </p>
                 </form>
             </div>
         </div>

@@ -1,5 +1,6 @@
-import { router, useForm, usePage } from "@inertiajs/react";
+import { Link, router, useForm, usePage } from "@inertiajs/react";
 import AuthLayout from "../../Layouts/AuthLayout";
+import toast from "react-hot-toast";
 
 function Login() {
     const { data, setData, errors, post, processing } = useForm({
@@ -38,10 +39,13 @@ function Login() {
     };
 
     return (
-        <div className="w-full bg-white rounded-lg shadow dark:border md:mt-0 sm:max-w-md xl:p-0 dark:bg-gray-800 dark:border-gray-700">
+        <div className="w-full bg-white rounded-lg shadow dark:border md:mt-0 sm:min-w-[400px] xl:p-0 dark:bg-gray-800 dark:border-gray-700">
             <div className="p-6 space-y-4 md:space-y-6 sm:p-8">
-                <h1 className="text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl dark:text-white">
-                    Login as patient
+                <h1 className="text-2xl font-bold leading-tight tracking-tight text-gray-900 md:text-4xl text-center dark:text-white">
+                    LOGIN{" "}
+                    <span className="font-extralight italic text-lg">
+                        Patient
+                    </span>
                 </h1>
                 <form
                     onSubmit={handleSubmit}
@@ -120,14 +124,16 @@ function Login() {
                     >
                         Login
                     </button>
-                    <p className="text-sm font-light text-gray-500 dark:text-gray-400">
-                        Don't have an account yet?{" "}
-                        <a
-                            href="#"
+                    <p className="text-sm font-light text-gray-500 dark:text-gray-400 w-full flex justify-between">
+                        <span className="inline-flex">
+                            Don't have an account yet?{" "}
+                        </span>
+                        <Link
+                            href="/auth/register"
                             className="font-medium text-primary-600 hover:underline dark:text-primary-500"
                         >
                             Register
-                        </a>
+                        </Link>
                     </p>
                 </form>
             </div>

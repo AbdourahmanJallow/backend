@@ -41,7 +41,7 @@ class PatientAppointmentController extends Controller
         // return response(['success' => true, 'data' => $appointment]);
         // return redirect()->route('patientsAppointments.index')->with('success', 'Appointment booked successfully!');
 
-        return Inertia::location(route('patientsAppointments.index'));
+        // return Inertia::location(route('patientsAppointments.index'));
     }
 
     /**
@@ -66,22 +66,22 @@ class PatientAppointmentController extends Controller
         $appointment = Appointment::findOrFail($id);
 
         if ($this->getPatientId($request) !== $appointment->patient_id) {
-            return response(['success' => false, 'message' => 'Unauthorized to access resource'], 403);
+            return response(['message' => 'Unauthorized to access resource'], 403);
         }
 
         if ($request->reasons) {
             $appointment->reasons = $request->reasons;
         }
 
-        if ($request->cancelAppointment) {
+        if ($request->statusUpdate) {
             $appointment->status = 'canceled';
         }
 
         $appointment->save();
 
-        return response(
+        return redirect()->back()->with(
+            'flash',
             [
-                'success' => true,
                 'message' => 'Appointment updated successfully.',
                 'data' => $appointment
             ]

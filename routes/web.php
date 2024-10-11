@@ -20,23 +20,16 @@ Route::post('patient/register', [PatientController::class, 'register'])->name('p
 Route::post('patient/login', [PatientController::class, 'login'])->name('patient.login');
 
 Route::middleware(['auth:web', IsPatient::class])->group(function () {
-    Route::get('/', function () {
-        $doctors = Doctor::all();
-        return Inertia::render('Home', ['doctors' => $doctors]);
-    });
+    Route::get('/', [DoctorController::class, 'index']);
+
     Route::get('patient-profile', [PatientController::class, 'profile']);
     Route::get('doctors/{doctor}', function (Doctor $doctor) {
         $doctor->load('user');
-        $doctorUserObject = $doctor->user;
-        return Inertia::render('DoctorDetails', ['doctor' => $doctor, 'doctorUserObject' => $doctorUserObject]);
+        return Inertia::render('DoctorDetails', ['doctor' => $doctor]);
     });
 
     Route::post('patient/logout', [PatientController::class, 'logout']);
     Route::put('patient/updateProfile', [PatientController::class, 'updateProfile']);
-
-    // Route::post('doctor/logout', [DoctorController::class, 'logout']);
-    // Route::put('doctor/updateProfile', [DoctorController::class, 'updateProfile']);
-    // Route::get('doctor/profile', [DoctorController::class, 'profile']);
 
     Route::apiResource('patientsAppointments', PatientAppointmentController::class);
 });

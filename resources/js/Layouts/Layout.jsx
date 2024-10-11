@@ -42,13 +42,17 @@ function Layout({ children }) {
                 </Sidebar>
             </aside>
             <article
-                className={`w-full bg-neutral-100 px-5 sm:px-32 sm:py-10 overflow-y-auto h-full transition-all duration-500 ${
+                className={`w-full bg-neutral-100 px-5 sm:px-32 sm:py-5 overflow-y-auto h-full transition-all duration-500 ${
                     sidebarExpanded ? "sm:ml-64" : "ml-0"
                 }`}
             >
                 <PrivateRoute>
                     {React.cloneElement(children, { sidebarExpanded })}
-                    <Toaster position="bottom-center" reverseOrder={true} />
+                    <Toaster
+                        position="top-center"
+                        reverseOrder={true}
+                        toastOptions={{ duration: 5000 }}
+                    />
                 </PrivateRoute>
             </article>
         </main>

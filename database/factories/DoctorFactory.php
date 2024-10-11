@@ -18,22 +18,22 @@ class DoctorFactory extends Factory
     public function definition(): array
     {
         $specializations = [
-            'Cardiology',
-            'Dermatology',
+            'Cardiologist',
+            'Dermatologist',
             'Pediatrics',
-            'Orthopedics',
-            'Neurology',
-            'Gynecology',
-            'General Surgery',
-            'Psychiatry',
-            'Radiology',
-            'Oncology',
+            'Orthopedician',
+            'Neurologist',
+            'Gynecologist',
+            'General Surgeon',
+            'Psychiatrist',
+            'Radiologist',
+            'Oncologist',
         ];
 
         return [
             'user_id' => User::factory(), // This will automatically create and associate a User with this Doctor
             'specialization' => $this->faker->randomElement($specializations),
-            'yearsOfExperience' => $this->faker->numberBetween(1, 20),
+            'yearsOfExperience' => $this->faker->numberBetween(1, 15),
             'bio' => $this->faker->paragraph(),
             'clinicalAddress' => $this->faker->address(),
         ];

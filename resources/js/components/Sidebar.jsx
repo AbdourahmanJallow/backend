@@ -5,6 +5,8 @@ import {
     ChevronFirst,
     LogOut,
     LucideLogOut,
+    MenuIcon,
+    SidebarCloseIcon,
 } from "lucide-react";
 import { useContext, createContext, useState } from "react";
 
@@ -42,7 +44,7 @@ export default function Sidebar({ children, expanded, toggleExpanded, user }) {
                         onClick={toggleExpanded}
                         className="p-1.5 rounded-lg bg-gray-50 hover:bg-gray-100"
                     >
-                        {expanded ? <ChevronFirst /> : <ChevronLast />}
+                        {expanded ? <SidebarCloseIcon /> : <MenuIcon />}
                     </button>
                 </div>
 

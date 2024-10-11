@@ -1,7 +1,35 @@
 import React from "react";
 import Header from "./shared/Header";
+import { useForm } from "@inertiajs/react";
+import toast from "react-hot-toast";
 
 function AppointmentsGrid({ appointments }) {
+    const { data, setData, put, errors, reset } = useForm({
+        statusUpdate: true,
+        appointment_id: "",
+    });
+
+    const handleCancel = (id) => {
+        console.log("Appointment ID:", id);
+        setData({ ...data, appointment_id: id });
+
+        try {
+            put(`/patientsAppointments/${data.appointment_id}`, {
+                onSuccess: () => {
+                    reset();
+                },
+                onError: (errors) => {
+                    console.log(errors);
+                    toast.error("Failed to cancel appointment.");
+                },
+            });
+
+            toast.success("Appointment cancelled.");
+        } catch (error) {
+            toast.error("Failed to cancel appointment.");
+        }
+    };
+
     return (
         <div className="mt-24">
             {/* <Header title="Appointments" /> */}
@@ -10,9 +38,6 @@ function AppointmentsGrid({ appointments }) {
                     <thead>
                         <tr>
                             <th className="py-2 px-4 border-b text-left">#</th>
-                            {/* <th className="py-2 px-4 border-b text-left">
-                                Appointment ID
-                            </th> */}
                             <th className="py-2 px-4 border-b text-left">
                                 Doctor Name
                             </th>
@@ -40,11 +65,6 @@ function AppointmentsGrid({ appointments }) {
                                 <td className="py-2 px-4 border-b">
                                     {index + 1}
                                 </td>
-
-                                {/* Appointment ID */}
-                                {/* <td className="py-2 px-4 border-b">
-                                    {appointment.id}
-                                </td> */}
 
                                 {/* Doctor Name */}
                                 <td className="py-2 px-4 border-b">
@@ -81,6 +101,7 @@ function AppointmentsGrid({ appointments }) {
                                         {appointment.status}
                                     </span>
                                 </td>
+                                {errors && errors.message}
 
                                 {/* Action button */}
                                 <td className="py-2 px-4 border-b">

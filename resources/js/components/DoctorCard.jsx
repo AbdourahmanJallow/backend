@@ -10,12 +10,12 @@ function DoctorCard({ doctor }) {
             <div className="relative h-72 mb-3 shadow-sm">
                 <img
                     src="https://hips.hearstapps.com/hmg-prod/images/portrait-of-a-happy-young-doctor-in-his-clinic-royalty-free-image-1661432441.jpg"
-                    alt={doctor.name}
+                    alt={doctor.user.name}
                     className="object-cover rounded-t-md w-full h-full"
                 />
             </div>
             <p className="text-slate-700 font-semibold text-[21px] whitespace-normal ">
-                {doctor.name}
+                {doctor.user.name}
             </p>
             <div className="flex justify-between items-center">
                 <p className="text-slate-600 text-lg whitespace-normal">
@@ -27,9 +27,9 @@ function DoctorCard({ doctor }) {
             </div>
             <button
                 onClick={handleBookAppointment}
-                className="w-full bg-green-500 hover:bg-green-600 rounded-xl p-1.5 text-white mt-2"
+                className="w-full bg-slate-300 hover:bg-slate-400 rounded-xl p-1.5 text-slate-500 hover:text-white mt-2"
             >
-                Book Appointment
+                View Doctor
             </button>
         </div>
     );

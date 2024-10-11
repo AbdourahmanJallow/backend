@@ -41,6 +41,7 @@ class PatientController extends Controller
         ]);
 
         Auth::login($user);
+        $request->session()->regenerate();
 
         return redirect('/')->with('success', 'Registration successful!');
     }
