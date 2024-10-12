@@ -3,10 +3,13 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreAppointmentRequest;
+use App\Mail\AppointmentRequestMail;
 use App\Models\Appointment;
+use App\Models\Doctor;
 use App\Models\Patient;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Mail;
 use Inertia\Inertia;
 
 class PatientAppointmentController extends Controller
@@ -38,10 +41,18 @@ class PatientAppointmentController extends Controller
 
         session()->flash('success', 'Appointment created successfully.');
 
-        // return response(['success' => true, 'data' => $appointment]);
-        // return redirect()->route('patientsAppointments.index')->with('success', 'Appointment booked successfully!');
+        $doctor = Doctor::with('user')->findOrFail($request->doctor_id);
 
-        // return Inertia::location(route('patientsAppointments.index'));
+        $appointment = [
+            'patient' => $request->user()->name,
+            'doctor' => $doctor->user->name,
+            'date' => $scheduled_at,
+            'comments' => $request->reasons,
+        ];
+
+        Mail::to($doctor->user->email)->send(
+            new AppointmentRequestMail($appointment)
+        );
     }
 
     /**

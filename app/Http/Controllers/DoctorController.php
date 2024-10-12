@@ -33,7 +33,15 @@ class DoctorController extends Controller
 
         $doctors = $doctors->orderByDesc('created_at')->paginate(8);
 
-        return Inertia::render('Home', props: ['doctors' => $doctors, 'search' => $search ?? '']);
+        return Inertia::render('Doctors', props: ['doctors' => $doctors, 'search' => $search ?? '']);
+    }
+
+    public function show(Request $request, Doctor $doctor)
+    {
+        if (!$doctor) return 'No Doctor found.';
+
+        $doctor->load('user');
+        return Inertia::render('DoctorDetails', ['doctor' => $doctor]);
     }
 
     public function profile(Request $request)

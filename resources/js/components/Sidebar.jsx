@@ -1,13 +1,5 @@
 import { router } from "@inertiajs/react";
-import {
-    MoreVertical,
-    ChevronLast,
-    ChevronFirst,
-    LogOut,
-    LucideLogOut,
-    MenuIcon,
-    SidebarCloseIcon,
-} from "lucide-react";
+import { LucideLogOut, MenuIcon, X } from "lucide-react";
 import { useContext, createContext, useState } from "react";
 
 const SidebarContext = createContext();
@@ -44,7 +36,11 @@ export default function Sidebar({ children, expanded, toggleExpanded, user }) {
                         onClick={toggleExpanded}
                         className="p-1.5 rounded-lg bg-gray-50 hover:bg-gray-100"
                     >
-                        {expanded ? <SidebarCloseIcon /> : <MenuIcon />}
+                        {expanded ? (
+                            <X className="w-6 h-6 font-bold" />
+                        ) : (
+                            <MenuIcon />
+                        )}
                     </button>
                 </div>
 
@@ -60,9 +56,9 @@ export default function Sidebar({ children, expanded, toggleExpanded, user }) {
                     />
                     <div
                         className={`
-              flex justify-between items-center
-              overflow-hidden transition-all ${expanded ? "w-52 ml-3" : "w-0"}
-          `}
+                flex justify-between items-center
+                overflow-hidden transition-all ${expanded ? "w-52 ml-3" : "w-0"}
+            `}
                     >
                         <div className="leading-4">
                             <h4 className="font-semibold">{user.name}</h4>
@@ -115,11 +111,11 @@ export function SidebarItem({ icon, text, active, alert }) {
             {!expanded && (
                 <div
                     className={`
-          w-fit absolute left-full rounded-md px-2 py-1 ml-6
-          bg-green-100 text-green-800 text-sm
-          invisible opacity-20 -translate-x-3 transition-all
-          group-hover:visible group-hover:opacity-100 group-hover:translate-x-0
-      `}
+            w-fit absolute left-full rounded-md px-2 py-1 ml-6
+            bg-green-100 text-green-800 text-sm
+            invisible opacity-20 -translate-x-3 transition-all
+            group-hover:visible group-hover:opacity-100 group-hover:translate-x-0
+        `}
                 >
                     <p className="whitespace-nowrap text-xl">{text}</p>
                 </div>

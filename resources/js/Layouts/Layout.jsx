@@ -7,7 +7,7 @@ import { Toaster } from "react-hot-toast";
 
 function Layout({ children }) {
     const [sidebarExpanded, setSidebarExpanded] = useState(false);
-    const [activeLink, setActiveLink] = useState("/");
+    const [activeLink, setActiveLink] = useState("/doctors");
     const auth = usePage().props.auth;
 
     const handleActiveLink = (path) => {
@@ -30,7 +30,7 @@ function Layout({ children }) {
                         <Link
                             key={link.path}
                             href={link.path}
-                            onClick={() => handleLinkClick(link.path)}
+                            onClick={() => handleActiveLink(link.path)}
                         >
                             <SidebarItem
                                 icon={link.icon}
@@ -62,11 +62,12 @@ export default Layout;
 
 const sidebarLinks = [
     {
-        path: "/",
-        text: "Home",
+        path: "/doctors",
+        text: "Doctors",
         icon: (
             <img
-                src="https://cdn-icons-png.flaticon.com/128/1946/1946488.png"
+                // src="https://cdn-icons-png.flaticon.com/128/1946/1946488.png"
+                src="https://cdn-icons-png.flaticon.com/128/8815/8815112.png"
                 className="w-6"
             />
         ),
@@ -81,26 +82,6 @@ const sidebarLinks = [
             />
         ),
     },
-    // {
-    //     path: "/allDoctors",
-    //     text: "All Doctors",
-    //     icon: (
-    //         <img
-    //             src="https://cdn-icons-png.flaticon.com/128/8815/8815112.png"
-    //             className="w-8"
-    //         />
-    //     ),
-    // },
-    // {
-    //     path: "/notifications",
-    //     text: "Notifications",
-    //     icon: (
-    //         <img
-    //             src="https://cdn-icons-png.flaticon.com/128/10502/10502974.png"
-    //             className="w-8"
-    //         />
-    //     ),
-    // },
     {
         path: "/patient-profile",
         text: "Patient Profile",

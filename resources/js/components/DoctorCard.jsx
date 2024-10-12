@@ -17,12 +17,12 @@ function DoctorCard({ doctor }) {
             <p className="text-slate-700 font-semibold text-[21px] whitespace-normal ">
                 {doctor.user.name}
             </p>
-            <div className="flex justify-between items-center">
+            <div className="">
                 <p className="text-slate-600 text-lg whitespace-normal">
                     {doctor.specialization}
                 </p>
-                <p className="text-slate-400 text-[15px] whitespace-normal pt-[2px]">
-                    {doctor.yearsOfExperience} years of experience
+                <p className="text-slate-400 text-[15px] whitespace-normal">
+                    Experience: {doctor.yearsOfExperience} year(s)
                 </p>
             </div>
             <button

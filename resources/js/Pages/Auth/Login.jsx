@@ -3,7 +3,7 @@ import AuthLayout from "../../Layouts/AuthLayout";
 import toast from "react-hot-toast";
 
 function Login() {
-    const { data, setData, errors, post, processing } = useForm({
+    const { data, setData, errors, post, processing, reset } = useForm({
         email: "von@gmail.com",
         password: "password",
     });
@@ -19,7 +19,6 @@ function Login() {
         try {
             post("/patient/login", data, {
                 onSuccess: (page) => {
-                    resetUserData();
                     // router.visit("/");
                 },
                 onError: (errors) => {
@@ -28,14 +27,9 @@ function Login() {
             });
         } catch (error) {
             console.log(error.message);
+        } finally {
+            reset();
         }
-    };
-
-    const resetUserData = () => {
-        setData({
-            email: "",
-            // password: "",
-        });
     };
 
     return (
@@ -69,7 +63,9 @@ function Login() {
                             required
                         />
                     </div>
-                    {errors.email && <div>{errors.email}</div>}
+                    {errors.email && (
+                        <div className="text-red-600">{errors.email}</div>
+                    )}
 
                     <div>
                         <label
@@ -89,7 +85,9 @@ function Login() {
                             required
                         />
                     </div>
-                    {errors.password && <div>{errors.password}</div>}
+                    {errors.password && (
+                        <div className="text-red-600">{errors.password}</div>
+                    )}
 
                     <div className="flex items-center justify-between">
                         <div className="flex items-start">

@@ -82,7 +82,7 @@ function DoctorDetails() {
         <div className="w-full min-h-screen p-6 shadow-m rounded-md">
             <dialog
                 ref={dialogRef}
-                className="rounded backdrop:bg-black/85 relative overflow-visible px-4 py-2"
+                className="rounded backdrop:bg-black/65 relative overflow-visible px-4 py-2"
             >
                 {appointment && (
                     <div className="max-w-[90vw] sm:w-96 max-h-[90vh] rounded flex flex-col justify-between items-center text-wrap">
@@ -119,7 +119,7 @@ function DoctorDetails() {
                         {/* confirm button */}
                         <button
                             onClick={confirmBooking}
-                            className="w-full mt-4 bg-blue-700 hover:bg-blue-600 text-white rounded-lg p-3"
+                            className="w-full mt-4 bg-lime-600 hover:bg-lime-700 text-white rounded-lg p-3"
                         >
                             confirm
                         </button>
@@ -127,7 +127,7 @@ function DoctorDetails() {
                 )}
             </dialog>
             <div className="container mx-auto">
-                <Link href={"/"} className="p-2">
+                <Link href={"/doctors"} className="p-2">
                     <ArrowLeftIcon />
                 </Link>
                 {/* Doctor Details Row */}
@@ -227,9 +227,9 @@ function DoctorDetails() {
                                 <button
                                     // onClick={}
                                     type="submit"
-                                    className="w-full bg-green-500 hover:bg-green-600 text-white rounded-lg p-3"
+                                    className="w-full bg-lime-500 hover:bg-lime-600 text-white rounded-lg p-3"
                                 >
-                                    Book Appointment
+                                    Request Appointment
                                 </button>
                             </form>
                         </div>
