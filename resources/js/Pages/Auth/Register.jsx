@@ -1,9 +1,9 @@
-import { Link, router } from "@inertiajs/react";
+import { Link, router, useForm } from "@inertiajs/react";
 import { useState } from "react";
 import AuthLayout from "../../Layouts/AuthLayout";
 
 function Register() {
-    const [userData, setUserData] = useState({
+    const { data, setData, errors, reset, post } = useForm({
         name: "",
         email: "",
         password: "",
@@ -11,15 +11,15 @@ function Register() {
     });
 
     const handleChange = (e) => {
-        setUserData({ ...userData, [e.target.id]: e.target.value });
+        setData({ ...data, [e.target.id]: e.target.value });
     };
 
     const handleSubmit = (e) => {
         e.preventDefault();
         try {
-            router.post("/patient/register", userData, {
+            post("/patient/register", data, {
                 onSuccess: () => {
-                    resetUserData();
+                    reset();
                 },
                 onError: (errors) => {
                     console.log(errors);
@@ -29,6 +29,8 @@ function Register() {
             // resetUserData();
         } catch (error) {
             console.log(error.message);
+        } finally {
+            reset();
         }
     };
 
@@ -64,13 +66,16 @@ function Register() {
                             type="string"
                             name="name"
                             id="name"
-                            value={userData.name}
+                            value={data.name}
                             onChange={handleChange}
                             className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                             placeholder="John Doe"
                             required
                         />
                     </div>
+                    {errors.name && (
+                        <div className="text-red-600">{errors.name}</div>
+                    )}
                     <div>
                         <label
                             htmlFor="email"
@@ -82,13 +87,16 @@ function Register() {
                             type="email"
                             name="email"
                             id="email"
-                            value={userData.email}
+                            value={data.email}
                             onChange={handleChange}
                             className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                             placeholder="name@company.com"
                             required
                         />
                     </div>
+                    {errors.email && (
+                        <div className="text-red-600">{errors.email}</div>
+                    )}
                     <div>
                         <label
                             htmlFor="password"
@@ -100,13 +108,16 @@ function Register() {
                             type="password"
                             name="password"
                             id="password"
-                            value={userData.password}
+                            value={data.password}
                             onChange={handleChange}
                             placeholder="••••••••"
                             className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                             required
                         />
                     </div>
+                    {errors.password && (
+                        <div className="text-red-600">{errors.password}</div>
+                    )}
 
                     <button
                         type="submit"

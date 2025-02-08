@@ -40,10 +40,10 @@ class PatientController extends Controller
             'user_id' => $user->id,
         ]);
 
-        Auth::login($user);
-        $request->session()->regenerate();
+        // Auth::login($user);
+        // $request->session()->regenerate();
 
-        return redirect('/doctors')->with('success', 'Registration successful!');
+        return redirect('/auth/login')->with('success', 'Registration successful!');
     }
 
     public function login(Request $request)
@@ -63,7 +63,7 @@ class PatientController extends Controller
         Auth::login($user);
         $request->session()->regenerate();
 
-        return redirect()->intended('/doctors');
+        return redirect()->intended('/');
     }
 
     public function loginForm()
