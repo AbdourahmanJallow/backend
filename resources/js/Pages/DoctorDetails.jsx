@@ -82,7 +82,7 @@ function DoctorDetails() {
         <div className="w-full min-h-screen p-6 shadow-m rounded-md">
             <dialog
                 ref={dialogRef}
-                className="rounded backdrop:bg-black/65 relative overflow-visible px-4 py-2"
+                className="rounded backdrop:bg-black/85 relative overflow-visible px-4 py-2"
             >
                 {appointment && (
                     <div className="max-w-[90vw] sm:w-96 max-h-[90vh] rounded flex flex-col justify-between items-center text-wrap">

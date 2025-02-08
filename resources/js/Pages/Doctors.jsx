@@ -25,7 +25,7 @@ function Doctors({ sidebarExpanded }) {
 
         try {
             console.log(data.query);
-            get("/", {
+            get("/doctors", {
                 preserveState: true,
                 search: data.search,
             });

@@ -43,7 +43,7 @@ class PatientController extends Controller
         Auth::login($user);
         $request->session()->regenerate();
 
-        return redirect('/')->with('success', 'Registration successful!');
+        return redirect('/doctors')->with('success', 'Registration successful!');
     }
 
     public function login(Request $request)
@@ -63,7 +63,7 @@ class PatientController extends Controller
         Auth::login($user);
         $request->session()->regenerate();
 
-        return redirect()->intended('/');
+        return redirect()->intended('/doctors');
     }
 
     public function loginForm()

@@ -37,6 +37,9 @@ class HandleInertiaRequests extends Middleware
     {
         return array_merge(parent::share($request), [
             //
+            'flash' => [
+                'predicted_disease' => session('predicted_disease'),
+            ],
         ]);
     }
 }

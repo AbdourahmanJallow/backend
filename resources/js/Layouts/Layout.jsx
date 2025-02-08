@@ -62,6 +62,17 @@ export default Layout;
 
 const sidebarLinks = [
     {
+        path: "/",
+        text: "Home",
+        icon: (
+            <img
+                // src="https://cdn-icons-png.flaticon.com/128/1946/1946488.png"
+                src="https://cdn-icons-png.flaticon.com/128/8815/8815112.png"
+                className="w-6"
+            />
+        ),
+    },
+    {
         path: "/doctors",
         text: "Doctors",
         icon: (
