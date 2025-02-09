@@ -67,7 +67,7 @@ const sidebarLinks = [
         icon: (
             <img
                 // src="https://cdn-icons-png.flaticon.com/128/1946/1946488.png"
-                src="https://cdn-icons-png.flaticon.com/128/8815/8815112.png"
+                src="https://cdn-icons-png.flaticon.com/128/2549/2549900.png"
                 className="w-6"
             />
         ),
@@ -84,8 +84,19 @@ const sidebarLinks = [
         ),
     },
     {
+        path: "/disease-predictor",
+        text: "AI Assistant",
+        icon: (
+            <img
+                // src="https://cdn-icons-png.flaticon.com/128/1946/1946488.png"
+                src="https://cdn-icons-png.flaticon.com/128/11782/11782353.png"
+                className="w-6"
+            />
+        ),
+    },
+    {
         path: "/patientsAppointments",
-        text: "Appointments",
+        text: "My Appointments",
         icon: (
             <img
                 src="https://cdn-icons-png.flaticon.com/128/4428/4428204.png"
@@ -95,7 +106,7 @@ const sidebarLinks = [
     },
     {
         path: "/patient-profile",
-        text: "Patient Profile",
+        text: "My Profile",
         icon: <UserCircle size={30} />,
     },
 ];

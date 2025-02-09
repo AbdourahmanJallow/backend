@@ -9,7 +9,11 @@ function DoctorCard({ doctor }) {
         <div className="bg-neutral-100 rounded-md flex flex-col ">
             <div className="relative h-72 mb-3 shadow-sm">
                 <img
-                    src="https://hips.hearstapps.com/hmg-prod/images/portrait-of-a-happy-young-doctor-in-his-clinic-royalty-free-image-1661432441.jpg"
+                    src={`${
+                        doctor?.user?.avatar ??
+                        "https://hips.hearstapps.com/hmg-prod/images/portrait-of-a-happy-young-doctor-in-his-clinic-royalty-free-image-1661432441.jpg"
+                    }`}
+                    // src="https://hips.hearstapps.com/hmg-prod/images/portrait-of-a-happy-young-doctor-in-his-clinic-royalty-free-image-1661432441.jpg"
                     alt={doctor.user.name}
                     className="object-cover rounded-t-md w-full h-full"
                 />

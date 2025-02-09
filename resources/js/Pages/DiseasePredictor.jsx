@@ -102,7 +102,7 @@ export default function DiseasePredictor({ flash }) {
         <>
             <Head title="Disease Predictor" />
 
-            <div className="min-h-screen bg-lime-50 p-4 flex items-center justify-center">
+            <div className="min-h-screen bg-lime- p-4 flex items-center justify-center">
                 <div className="w-full max-w-xl bg-white rounded-lg shadow-lg shadow-lime-100 border border-lime-200">
                     {/* Header */}
                     <div className="p-6 border-b border-lime-100">

@@ -16,7 +16,7 @@ class DiseasePredictionController extends Controller
 
         // Call the Python API
         try {
-            $response = Http::timeout(10)->post('http://localhost:5307/predict', [
+            $response = Http::timeout(10)->post('http://localhost:5318/predict', [
                 'symptoms' => $request->symptoms
             ]);
 

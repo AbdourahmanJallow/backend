@@ -4,8 +4,8 @@ import toast from "react-hot-toast";
 
 function Login() {
     const { data, setData, errors, post, processing, reset } = useForm({
-        email: "von@gmail.com",
-        password: "password",
+        email: "",
+        password: "",
     });
 
     const handleChange = (e) => {

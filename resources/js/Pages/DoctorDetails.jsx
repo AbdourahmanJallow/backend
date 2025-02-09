@@ -135,7 +135,11 @@ function DoctorDetails() {
                     {/* Doctor Image */}
                     <div className="md:w-1/2 w-full h-full">
                         <img
-                            src="https://hips.hearstapps.com/hmg-prod/images/portrait-of-a-happy-young-doctor-in-his-clinic-royalty-free-image-1661432441.jpg"
+                            // src="https://hips.hearstapps.com/hmg-prod/images/portrait-of-a-happy-young-doctor-in-his-clinic-royalty-free-image-1661432441.jpg"
+                            src={`${
+                                doctor?.user?.avatar ??
+                                "https://hips.hearstapps.com/hmg-prod/images/portrait-of-a-happy-young-doctor-in-his-clinic-royalty-free-image-1661432441.jpg"
+                            }`}
                             alt={doctor.user.name}
                             className="w-full h-full object-cover rounded-lg"
                         />
