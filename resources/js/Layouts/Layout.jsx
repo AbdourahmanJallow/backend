@@ -84,23 +84,23 @@ const sidebarLinks = [
         ),
     },
     {
-        path: "/disease-predictor",
-        text: "AI Assistant",
-        icon: (
-            <img
-                // src="https://cdn-icons-png.flaticon.com/128/1946/1946488.png"
-                src="https://cdn-icons-png.flaticon.com/128/11782/11782353.png"
-                className="w-6"
-            />
-        ),
-    },
-    {
         path: "/patientsAppointments",
         text: "My Appointments",
         icon: (
             <img
                 src="https://cdn-icons-png.flaticon.com/128/4428/4428204.png"
                 className="w-8"
+            />
+        ),
+    },
+    {
+        path: "/disease-predictor",
+        text: "AI Assistant",
+        icon: (
+            <img
+                // src="https://cdn-icons-png.flaticon.com/128/1946/1946488.png"
+                src="https://cdn-icons-png.flaticon.com/128/17653/17653338.png"
+                className="w-6"
             />
         ),
     },

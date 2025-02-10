@@ -17,7 +17,7 @@ function SearchInput({ data, setData, onSubmit }) {
                 />
                 <button
                     type="submit"
-                    className="p-3 bg-blue-700 font-semibold rounded-xl text-white"
+                    className="p-3 bg-green-700 font-semibold rounded-xl text-white"
                 >
                     Go
                 </button>

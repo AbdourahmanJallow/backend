@@ -61,7 +61,7 @@ export default function DiseasePredictor({ flash }) {
         try {
             const response = await axios.post("/predict-disease", data);
             setPrediction(response.data.predicted_disease);
-            reset();
+            // reset();
         } catch (error) {
             setError("Failed to predict disease.");
             console.error(error);

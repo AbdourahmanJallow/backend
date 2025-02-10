@@ -31,7 +31,7 @@ class DoctorController extends Controller
             });
         }
 
-        $doctors = $doctors->orderByDesc('created_at')->paginate(8);
+        $doctors = $doctors->orderBy('created_at')->paginate(8);
 
         return Inertia::render('Doctors', props: ['doctors' => $doctors, 'search' => $search ?? '']);
     }

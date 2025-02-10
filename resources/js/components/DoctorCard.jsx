@@ -15,7 +15,7 @@ function DoctorCard({ doctor }) {
                     }`}
                     // src="https://hips.hearstapps.com/hmg-prod/images/portrait-of-a-happy-young-doctor-in-his-clinic-royalty-free-image-1661432441.jpg"
                     alt={doctor.user.name}
-                    className="object-cover rounded-t-md w-full h-full"
+                    className="object-cover object-center rounded-t-md w-full h-full"
                 />
             </div>
             <p className="text-slate-700 font-semibold text-[21px] whitespace-normal ">

@@ -15,9 +15,17 @@ function Doctors({ sidebarExpanded }) {
     });
 
     // useEffect(() => {
-    // toast.success(`Welcome ${auth.user.name}`);
-    // console.log(doctors);
-    // get("/", { preserveState: true, search: data.search });
+    //     // toast.success(`Welcome ${auth.user.name}`);
+    //     // console.log(doctors);
+    //     const debounce = setTimeout(() => {
+    //         if (data.search.trim() !== "") {
+    //             // get("/doctors", { search: query }, { preserveState: true });
+    //             get("/doctors", { preserveState: true, search: data.search });
+    //         }
+
+    //         return () => clearTimeout(debounce);
+    //     }, 500);
+    //     // get("/", { preserveState: true, search: data.search });
     // }, [data]);
 
     const handleSearch = (e) => {
